@@ -58,7 +58,6 @@ public class SpiderQueueRabbitMq implements SpiderQueue {
         QueueTaskHolder holder = new QueueTaskHolder(t);
         try {
             this.producerChannel.basicPublish("", config.getQueueName(), null, holder.getBytesTask());
-            logger.info("add url: " + t.getUrl());
             return true;
         } catch (IOException e) {
             logger.error(e.getMessage(), e);
@@ -76,9 +75,13 @@ public class SpiderQueueRabbitMq implements SpiderQueue {
                     super.handleDelivery(consumerTag, envelope, properties, body);
                     QueueTaskHolder holder = new QueueTaskHolder(body);
                     T queueTask = holder.getQueueTask();
-                    logger.info("get url: " + queueTask.getUrl());
-                    consumer.accept(queueTask);
-                    consumerChannel.basicAck(envelope.getDeliveryTag(), false);
+                    try {
+                        consumer.accept(queueTask);
+                    } catch (Exception ex) {
+                        logger.error(ex.getMessage());
+                    }finally {
+                        consumerChannel.basicAck(envelope.getDeliveryTag(), false);
+                    }
                 }
             };
 
@@ -91,6 +94,12 @@ public class SpiderQueueRabbitMq implements SpiderQueue {
 
     @Override
     public long size() {
-        return 0;
+        try {
+            AMQP.Queue.DeclareOk declareOk = consumerChannel.queueDeclarePassive(config.getQueueName());
+            return declareOk.getMessageCount();
+        } catch (IOException e) {
+            logger.error(e.getMessage());
+            return 0;
+        }
     }
 }

@@ -1,9 +1,13 @@
 package noogel.xyz.dto;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.*;
 
 
 public class DefaultQueueSerializer implements QueueSerializer {
+    private static final Logger logger = LoggerFactory.getLogger(DefaultQueueSerializer.class);
 
     @Override
     public <T extends QueueTask> byte[] serialize(T item) {
@@ -15,7 +19,7 @@ public class DefaultQueueSerializer implements QueueSerializer {
             sOut.flush();
             return out.toByteArray();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return null;
     }
@@ -28,8 +32,8 @@ public class DefaultQueueSerializer implements QueueSerializer {
             sIn = new ObjectInputStream(in);
             return (T) sIn.readObject();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
+            return null;
         }
-        return null;
     }
 }

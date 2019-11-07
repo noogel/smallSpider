@@ -7,10 +7,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.Instant;
+import java.util.concurrent.TimeUnit;
 
 public class OkHttpHelper {
     private static final Logger logger = LoggerFactory.getLogger(OkHttpHelper.class);
-    private static OkHttpClient CLIENT = new OkHttpClient();
+    private static OkHttpClient CLIENT = new OkHttpClient.Builder()
+            .connectTimeout(1, TimeUnit.SECONDS)
+            .readTimeout(2, TimeUnit.SECONDS)
+            .build();
 
     public static String sendRequest(String urlParam) {
         Request request = new Request.Builder()

@@ -26,7 +26,9 @@ public class SpiderSchedulerImpl implements SpiderScheduler {
 
     @Override
     public <T extends QueueTask> boolean consumeTask(Consumer<T> consumer) {
-        queueFactory.getQueue().consume(consumer);
+        SpiderQueue queue = queueFactory.getQueue();
+        queue.consume(consumer);
+        logger.info("cur size: " + queue.size());
         return true;
     }
 }

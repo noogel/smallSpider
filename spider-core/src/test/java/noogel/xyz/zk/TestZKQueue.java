@@ -40,25 +40,25 @@ public class TestZKQueue {
 
     @Test
     public void testConcurrentQueue() throws InterruptedException {
-        QueueBuilder<TaskModel> builder = QueueBuilder.builder(client, new ZKQueueConsumer(), new ZKQueueSerializer(), "/zktest/distributed_queue");
-        DistributedQueue<TaskModel> distributedQueue = builder.buildQueue();
-        try {
-            distributedQueue.start();
-
-            for (int i = 0; i < 10; i++) {
-                TaskModel taskModel = TaskModel.of("https://www.baidu.com/" + i);
-                distributedQueue.put(taskModel);
-            }
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-        }
-        while (true) {
-            try {
-                Thread.sleep(10000);
-            } catch (InterruptedException e) {
-                throw e;
-            }
-        }
+//        QueueBuilder<TaskModel> builder = QueueBuilder.builder(client, new ZKQueueConsumer(), new ZKQueueSerializer(), "/zktest/distributed_queue");
+//        DistributedQueue<TaskModel> distributedQueue = builder.buildQueue();
+//        try {
+//            distributedQueue.start();
+//
+//            for (int i = 0; i < 10; i++) {
+//                TaskModel taskModel = TaskModel.of("https://www.baidu.com/" + i);
+//                distributedQueue.put(taskModel);
+//            }
+//        } catch (Exception e) {
+//            logger.error(e.getMessage(), e);
+//        }
+//        while (true) {
+//            try {
+//                Thread.sleep(10000);
+//            } catch (InterruptedException e) {
+//                throw e;
+//            }
+//        }
     }
 
 }

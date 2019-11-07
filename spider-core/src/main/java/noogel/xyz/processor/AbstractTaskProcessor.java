@@ -16,21 +16,25 @@ public abstract class AbstractTaskProcessor implements TaskProcessor {
 
     @Override
     public void run(String... args) throws InterruptedException {
+        singleTask(args);
+    }
+
+    private void multiTask(String... args) {
         List<CompletableFuture<Boolean>> tasks = new ArrayList<>();
         for (int i = 0; i < cpuProcessorNum; i++) {
-            tasks.add(this.task(args));
+            tasks.add(
+                CompletableFuture.supplyAsync(() -> singleTask(args), executors)
+            );
         }
         CompletableFuture.allOf(tasks.toArray(new CompletableFuture[0])).join();
     }
 
-    private CompletableFuture<Boolean> task(String... args) {
-        return CompletableFuture.supplyAsync(() -> {
-            try {
-                process();
-            } catch (Exception ex) {
-                logger.error(ex.getMessage(), ex);
-            }
-            return true;
-        }, executors);
+    private Boolean singleTask(String... args) {
+        try {
+            process();
+        } catch (Exception ex) {
+            logger.error(ex.getMessage(), ex);
+        }
+        return true;
     }
 }

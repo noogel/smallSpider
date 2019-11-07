@@ -69,11 +69,11 @@ public class TestZKLocking {
 
     @Test
     public void testConcurrentQueue() {
-        List<CompletableFuture<Void>> futureList = new ArrayList<>();
-        for (int i = 0; i < availableProcessor; i++) {
-            futureList.add(CompletableFuture.runAsync(() -> doGetLocking(), threadPool));
-        }
-        CompletableFuture.allOf(futureList.toArray(new CompletableFuture[0])).join();
+//        List<CompletableFuture<Void>> futureList = new ArrayList<>();
+//        for (int i = 0; i < availableProcessor; i++) {
+//            futureList.add(CompletableFuture.runAsync(() -> doGetLocking(), threadPool));
+//        }
+//        CompletableFuture.allOf(futureList.toArray(new CompletableFuture[0])).join();
     }
 
 }
