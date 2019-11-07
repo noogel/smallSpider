@@ -23,7 +23,7 @@ public abstract class AbstractTaskProcessor implements TaskProcessor {
         List<CompletableFuture<Boolean>> tasks = new ArrayList<>();
         for (int i = 0; i < cpuProcessorNum; i++) {
             tasks.add(
-                CompletableFuture.supplyAsync(() -> singleTask(args), executors)
+                    CompletableFuture.supplyAsync(() -> singleTask(args), executors)
             );
         }
         CompletableFuture.allOf(tasks.toArray(new CompletableFuture[0])).join();

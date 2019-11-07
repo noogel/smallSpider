@@ -79,7 +79,7 @@ public class SpiderQueueRabbitMq implements SpiderQueue {
                         consumer.accept(queueTask);
                     } catch (Exception ex) {
                         logger.error(ex.getMessage());
-                    }finally {
+                    } finally {
                         consumerChannel.basicAck(envelope.getDeliveryTag(), false);
                     }
                 }

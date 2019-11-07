@@ -1,6 +1,5 @@
 package noogel.xyz.dto;
 
-import lombok.Data;
 import lombok.Getter;
 import noogel.xyz.config.RequestHeaderEnum;
 

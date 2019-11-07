@@ -1,11 +1,8 @@
 package noogel.xyz.zk;
 
 import noogel.xyz.config.TestConfiguration;
-import noogel.xyz.model.TaskModel;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
-import org.apache.curator.framework.recipes.queue.DistributedQueue;
-import org.apache.curator.framework.recipes.queue.QueueBuilder;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.junit.Before;
 import org.junit.Test;
